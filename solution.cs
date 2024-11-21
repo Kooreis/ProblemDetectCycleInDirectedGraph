@@ -1,23 +1,23 @@
 ```C#
-using System;
-using System.Collections.Generic;
-
-public class Graph
+private bool IsCyclicUtil(int i, bool[] visited, bool[] recStack)
 {
-    private int Vertices;
-    private List<int>[] adj;
+    if (recStack[i])
+        return true;
 
-    public Graph(int v)
-    {
-        Vertices = v;
-        adj = new List<int>[v];
-        for (int i = 0; i < v; ++i)
-            adj[i] = new List<int>();
-    }
+    if (visited[i])
+        return false;
 
-    public void AddEdge(int v, int w)
-    {
-        adj[v].Add(w);
-    }
+    visited[i] = true;
+
+    recStack[i] = true;
+    List<int> children = adj[i];
+
+    foreach (int c in children)
+        if (IsCyclicUtil(c, visited, recStack))
+            return true;
+
+    recStack[i] = false;
+
+    return false;
 }
 ```
